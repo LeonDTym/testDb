@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNetCore.Http
+@{ }
+
+<div class="text-center">
+	<h2 style="text-align:center"><b>Запрос на перевод</b></h2>
+</div>
+
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<a class="nav-link active" style="padding-bottom:0px" asp-controller="Home" asp-action="Index"><h4><i class="fa fa-arrow-circle-left btn-outline-green"></i></h4></a>
+	</li>
+
+</ul>
+
+<div class="container col-10" style="margin-top:40px; ">  
+@using (Html.BeginForm("UpdateTransfer", "Home", FormMethod.Post, new { id = "TransferForm" }))
+{
+	@Html.AntiForgeryToken()
+	<table style="width:100%">
+		<tr style="width:contain">
+			<td style="width:20%">
+				<div class="" style="border-style: solid; border-width: thin; border-radius:30px; width:100%">
+				<div class="form-control-lg text-transfer" style="">Уникальный номер</div>
+				<div  class="in-transfer">
+					@Html.TextBox("UniqueID", null, new { @class = "form-control", @style = "border-radius:50px; width:100%", @placeholder = "000000000",@id="uniqueID", @maxlength = "9", @title = "Введите номер" })	
+				</div>
+				<div class="form-control-lg text-transfer" style="">Дата рождения:</div>
+				<div style="margin-bottom:10px" class="in-transfer" >
+					@Html.TextBox("Data", null, new { @class = "form-control", @style = "border-top-left-radius: 50px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 50px; width:100%", @placeholder = "дд.мм.гггг", @id="date", @title = "Введите номер" })
+					<button type="button" id="buttonForDateBirth" style="border-style: solid; border-width: thin; border-radius: 0 4px 4px 0; background-color: white; "><img style="width:20px" src="~/svgs/solid/calendar-alt.svg" /> </button>
+				</div>
+				<div style="margin-bottom:10px">
+				<button style="margin-left:20%; margin-bottom: 10px;" type="button" class="btn btn-outline-green getTransferdStud">Получить данные</button>
+				</div>
+				</div>
+				@*</div>*@
+			</td>
+			<td style="width:40%">
+@*				<div class="in-transfer">
+					<label style="margin-top:2px;" class="form-control-lg text-transfer">Ученик:</label>
+					<label style="margin-top:2px;" class="form-control-lg text-transfer" id="uniqueIDStr"></label>
+				</div>*@
+				<div class="in-transfer">
+					<label style="margin-top:2px;" class="form-control-lg text-transfer">Фамилия:</label>
+					<input lang="ru" style="margin-bottom:0px" type="text" id="kidSurname" class="form-control in-transfer" readonly placeholder="Фамилия" />
+				</div>
+				<div class="in-transfer">
+					<label style="margin-top:2px" class="form-control-lg text-transfer">Имя:</label>
+					<input lang="ru" style="margin-bottom:0px" type="text" id="kidName" class="form-control in-transfer" readonly placeholder="Имя" />
+				</div>
+					<div class="in-transfer">
+				<label style="margin-top:2px" class="form-control-lg text-transfer">Отчество:</label>
+				<input lang="ru" style="margin-bottom:0px" type="text" id="kidPatronymic"  class="form-control in-transfer" readonly placeholder="Отчество" />
+					</div>
+					<div class="in-transfer">
+				<label style="margin-top:2px; width:contain" class="form-control-lg text-transfer">Дата рождения:</label>
+				<input lang="ru" style="width:fit-content;margin-bottom:0px" type="text" id="dateBirthday" class="form-control in-transfer" readonly placeholder="дд.мм.гггг" />
+					</div>
+					<div class="in-transfer" style=" margin-bottom:0px">
+				<label style="margin-top:2px; width:contain;" class="form-control-lg text-transfer">Год окончания обучения:</label>
+				<div style=" height:100%" class="in-transfer" >
+					@Html.TextBox("EndData", null, new { @class = "form-control", @style = " width:100%;", @required ="true", @placeholder = "мм.гггг", @id="endTraining", @title = "Введите дату" })
+					<button type="button" id="buttonEndTraining" style="border-style: solid; border-width: thin; border-radius: 0 4px 4px 0; background-color: white;width:fit-content; "><img style="width:20px" src="~/svgs/solid/calendar-alt.svg" /> </button>
+				</div>
+				</div>
+				<div class="in-transfer"style=" margin-bottom:0px">
+					<label style="margin-top:2px; width:contain;" class="form-control-lg text-transfer">Класс:</label>
+					<div style=" height:100%" class="in-transfer" >
+					@*@Html.TextBox("Class", null, new { @class = "form-control", @style = " width:100%;", @required ="true", @placeholder = "1А", @id="kidClass", @title = "Введите класс" })*@
+					<input name="Class" type="text" class = "form-control" style = "width:100%;" required placeholder = "1А" id="kidClass" maxlength="3" title = "Введите класс" />
+					</div>
+				</div>
+				<div class="in-transfer"style=" margin-bottom:0px">
+					<label style="margin-top:2px; width:contain;" class="form-control-lg text-transfer">Школа: </label>
+					<p id="schoolNameShort" class="in-transfer form-control" readonly ></p>
+				</div>
+			</td>
+			<td style="vertical-align:bottom; width:60%">
+				<div class="" style="margin-bottom:10px">
+					<label style=" width:contain;" class="form-control-lg text-transfer"> Наименование учреждения образования, в которое осуществляется перевод: </label>
+					<select class="select-new-sch form-control" data-style="btn-outline-green" data-live-search="true" name="SchoolTransfer" id="schoolTransfer">
+					<option value="-">-</option>
+					@foreach (var item in ViewBag.Model1)
+					{
+						<option id="@item.id" value="@item.id">@item.school_name_short</option>
+					}
+					</select>
+				</div>
+			</td>
+		</tr>
+	</table>
+	}
+<hr/>
+<div style="justify-content:center;display:flex;">
+<button style="background-color: #2E8B57; color:white; " type="submit" hidden id="submitTransfer" class="btn btn-outline-green">Подтвердить перевод</button>
+</div>
+
+
+
+<script type="text/javascript">
+	var url = document.location.toString();
+	if (url.split('#')[1] == "Transfer") {
+		$("#loading").show();
+		$("#partialAddKid").load('@Url.Content("/Home/AddKid")', function () {
+			$("#loading").hide();
+		});
+	}
+
+	
+	$('#endTraining').datepicker(
+		{
+			format: 'mm.yyyy',
+			language: 'ru',
+			startDate: new Date(2000, 1 - 1, 1),
+			endDate: '+13y',
+            orientation: "top right",
+            startView: 2,
+            minViewMode: 1,
+            maxViewMode: 2,
+            autoclose: true
+		}
+	);
+	$('#buttonEndTraining').click(function () {
+		$("#endTraining").focus();
+	})
+	$('#date').datepicker(
+		{
+			format: 'dd.mm.yyyy',
+			language: 'ru',
+			startDate: new Date(2000, 1 - 1, 1),
+			endDate: 'y',
+			startView: 2,
+			forceParse: false,
+			defaultViewDate: {
+				year: 2014
+			},
+			autoclose: true
+		}
+	);
+	$('#buttonForDateBirth').click(function () {
+		$("#date").focus();
+	})
+
+      $("#submitTransfer").click(function () {
+		if(  $('#kidClass').val != null){
+            $("#TransferForm").submit();
+		}
+        });
+    
+	
+
+</script>

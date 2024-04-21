@@ -1,0 +1,643 @@
+﻿@model StudentCardsAdmin.Models.SearchModelView
+@using Microsoft.AspNetCore.Http
+@{ ViewData["Title"] = "Home Page"; }
+<div class="text-center">
+	@foreach (var item in ViewBag.School)
+	{
+<h3 style="text-align:right">@item.school_name</h3>
+				<div>
+					<h6 style="text-align:right">@item.school_address</h6>
+				</div>}
+</div>
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<a class="nav-link active" asp-controller="Home" asp-action="Index">Главная</a>
+	</li>
+	@*<li class="nav-item">
+		<a class="nav-link " data-toggle="tab" href="#AddKid" id="loadAddKid">Добавление</a>
+		</li>*@
+		@if(Context.Session.GetString("Rights") == "1" || Context.Session.GetString("Rights") == "4" ){
+	@*<li class="nav-item">
+		<a class="nav-link" data-toggle="tab" href="#EditKid" id="loadEditKid">Добавление из Excell</a>
+		</li>*@
+	}
+
+	<li class="nav-item">
+		<a class="nav-link next-slide-text" data-toggle="tab" href="#SCSchool" id="loadSCSchool">Справочник Школ</a>
+	</li>
+	@if (Context.Session.GetString("Rights") == "1" || Context.Session.GetString("Rights") == "4") 
+	{ 
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="Transfer">Перевод учащегося</a>
+		</li>
+	}
+	@if (Context.Session.GetString("Rights") == "8" || Context.Session.GetString("Rights") == "4")
+	{
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="Report">Отчеты</a>
+		</li>
+	}
+</ul>
+
+
+<!-- Tab panes -->
+<div class="tab-content">
+	<div class="tab-pane col-auto container active" id="AddKid">
+		@if (Context.Session.GetString("Rights") != "8")
+		{
+	@*	<div style="position: relative; left:75%; margin-right:75%">
+			<a class="btn btn-sm btn-outline-green" type="button" asp-area="" asp-controller="Home" asp-action="Index" asp-route-get="1">Получить уникальный №</a>
+			<button class="btn btn-sm btn-outline-green actSet" >Подтвердить наличие анкет</button>
+		</div>*@
+		}
+		<div id="partialAddKid">
+	@using (Html.BeginForm())
+	{
+		<div style="margin-top:15px" class="form-group signin-form form-inline rowModal">
+			Поиск по ID: @Html.TextBox("Search", null, new { @class = "form-control", @style = "border-radius:50px", @placeholder = "000000000", @maxlength = "9", @title = "Введите номер" })
+			<a id="clearSch" title="Очистка сортировки и поиска" class="btn btn-sm btn-outline-dark" style="border-radius:50px;" type="button" asp-area="" asp-controller="Home" asp-action="Index">Очистить</a>
+			<div>
+				<div class="tab">
+					<ul class="login">
+						<li id="toggle">
+							<button type="button" style="border-radius: 50px;" data-toggle="modal" data-target="#search" class="btn btn-sm btn-outline-dark">Расширенный поиск</button>
+							@* <a id="open" style="border-radius: 50px;" class="open btn btn-sm btn-outline-dark" href="#">Расширенный поиск</a>*@
+							@* <a id="close" style="display: none; border-radius: 50px;" class="open btn btn-sm btn-outline-dark" href="#">Закрыть панель</a>*@
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div style="margin-left: 30%;" class="form-inline row">
+			<label >Выбор Учреждения образования &nbsp;</label>
+			
+			<select class="selectpicker" data-width="350px" data-live-search="true" data-style="btn-sm btn-outline-green"  name="school_cbu" id="school_cbu" >
+				<option value="-">-</option>
+				@foreach (var item in ViewBag.Model1)
+				{
+					<option id="@item.id" class="selectSchool"  value="@item.id">@item.school_name_short</option>
+				}
+			</select>
+		</div>
+		</div>
+	}
+
+			<div class="tableFixHead">
+				<table class="table table-bordered ">
+					<thead>
+						<tr class="text-center shadow">
+							@*<th style="z-index: 100; text-align: center; vertical-align:middle"><input type="checkbox" style="z-index: 99; position: relative; padding: 10px; transform: scale(1.5); opacity: 0.9; cursor: pointer;" onclick="check()" /> </th>*@
+							<th>ID-учащегося</th>
+							<th>Фамилия</th>
+							<th>
+							@*	@Html.ActionLink("Имя", "Index", new { sortData = ViewBag.NameSortParm })*@
+							Имя
+							</th>
+							<th>Отчество</th>
+							<th>Дата<br>рождения</th>
+							<th>
+							@*	@Html.ActionLink("Класс", "Index", new { sortData = ViewBag.ClassSortParm })*@
+							Класс
+							</th>
+							<th>Cрок<br>окончания</th>
+							<th>Подтверждение<br>данных анкеты</th>
+							<th>Ссылка на фото</th>
+						</tr>
+					</thead>
+							@foreach (var item in ViewBag.Model)
+							{
+						<tr>
+@*			@if (@item.photo_id != 0 && item.pers_data == 0)
+			{
+<td style="text-align:center"><input name="chbox[]" type="checkbox" style="z-index: 99; position: relative; padding: 10px; transform: scale(1.5); opacity: 0.9; cursor: pointer; " id="@item.id" /></td>
+ }
+else
+{
+<td></td>}*@ @*Чекбоксы для актов *@
+			@*<td>@item.id</td>*@
+			@if (item.unique_id == "0        ")
+			{
+				<td style="text-align:center">" - "</td> }
+			else
+				{
+			<td style="text-align:center">@item.unique_id</td>}
+			<td>@item.kid_surname</td>
+			<td>@item.kid_name</td>
+			<td>@item.kid_patronymic</td>
+			<td>@item.year_birthday.ToShortDateString()</td>
+			<td style="text-align:center">@item.kid_class</td>
+			<td style="text-align:center">@item.end_training.ToString("MM.yyyy")</td>
+			<td style="text-align:center; width:1%">
+				@if (item.pers_data != 0)
+				{<i style="color:forestgreen" class="fa fa-check"></i>}
+				else
+				{<i style="color:red" class="fa fa-times"></i>}
+			</td>
+			<td style="width:294px">
+				@*Проверка на наличие индетификатора*@
+				@*@if (item.unique_id != "0 ")
+					{*@
+				@if (@item.photo_id != 0)@*Проверка наличия фотографии*@ {
+
+<div style="width:fit-content">
+	<a id="@item.photo_id" style="border-radius:50px;" class="btn btn-outline-success getPhoto" data-toggle="modal" data-target="#ModalPhotoOpen">Открыть фото</a>
+	<button title="Дополнительная информация по ученику" id="@item.id" data-toggle="modal" data-target="#etcDataStudent" class="btn btn-outline-dark etcDataStudent"><i class="fa fa-bars"></i></button>
+	@if (Context.Session.GetString("Rights") == "4")
+	{
+		<button title="Редактирование ученика" id="@item.id" class="btn btn-outline-green getStudEdit" data-toggle="modal" data-target="#editKid"><i style="font-size:16pt" class="fas fa-pencil-alt"></i></button>
+	@*<a id="@item.id" class="btn btn-outline-danger" href="/Home/DelSchool/@item.id" ><i style="font-size:16pt" class="fas fa-trash"></i></a>*@
+	}	
+</div> }
+else
+{
+<div>
+	
+		<label style="margin-bottom:0px; margin-left:10%" class="" ><i style="color:red" class="fa fa-times"></i> Фото отсутствует</label>
+		@*<label id="@item.id" onClick="getdetails(this)" for="photo" style="border-radius:50px; margin-bottom:0px" class="btn btn-outline-dark">Загрузить фото</label>
+		<button id="@item.id" data-toggle="modal" data-target="#etcDataStudent" class="btn btn-outline-dark noAct"><i class="fa fa-bars"></i></button>*@
+	
+	@*@await Html.PartialAsync("_AddPhoto")*@
+
+
+</div>
+	}
+				@*}*@
+				@*else
+					{ <p style="border-radius:50px; margin-bottom:0px;" class="btn btn-outline-dark" data-tooltip="Необходимо присвоить уникальный идентификатор">Загрузить фото</p>}*@
+
+			</td>
+
+		</tr>}
+
+				</table>
+				
+</div>
+<div>Записи @ViewBag.ModelCount</div>
+
+			<!--Modal open photo-->
+			<div class="modal fade" id="ModalPhotoOpen" tabindex="-1" role="dialog" aria-labelledby="ModalPhotoOpenTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div style="max-width: 340px" class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="ModalPhotoOpenlLongTitle">Фото</h5>
+							<button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div style="text-align:center;" id="photka"></div>
+						</div>
+						<div class="modal-footer">
+							@*<button id="cancelForm" type="button" class="btn btn-secondary" data-dismiss="modal">!Закрыть</button>
+								<button id="submitAddForm" type="submit" class="btn btn-primary">!Изменить</button>*@
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal Etc Data Student -->
+			<div class="modal fade" id="etcDataStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Дополнительная информация</h5>
+							<button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="nonfin_app_num"></div>
+							<div id="n_telephone"></div>
+							<div id="kid_email"></div>
+							<div id="anketa"></div>
+							<div id="date_update"></div>
+							<div id="status_zayavka_id"></div>
+						</div>
+						<div class="modal-body">
+							<div id="buttonSetAct"></div>
+						</div>
+						<div class="modal-footer">
+							<button id="cancelForm" type="reset" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+							<div id="buttonAct"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal Search -->
+			<div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Расширенный поиск</h5>
+							<button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+				@using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "SearchKidForm" }))
+				{
+				<div class=" form-inline rowModal" style="margin-top:10px; margin-left:10px">
+					<label class="labelMy">Поиск по ID:</label>
+					<input asp-for="UniqueId" class="form-control form-control-sm" style=" margin-left: 10px" placeholder="000000000" maxlength="9" title="Введите номер" />
+				</div>
+				<div class=" form-inline rowModal" style="margin-top:10px">
+					<input asp-for="SName" class="form-control form-control-sm" style=" margin-left: 10px" placeholder="Фамилия" />
+					<input asp-for="Name" class="form-control form-control-sm" style="margin-left:10px" placeholder="Имя" />
+					<input asp-for="TName" class="form-control form-control-sm" style=" margin-left: 10px; margin-top:10px" placeholder="Отчество" />
+				</div>
+				<div class=" form-inline" style="margin-top:10px">
+					<input asp-for="Class" class="form-control form-control-sm" style=" margin-left: 10px" placeholder="Класс" />
+				</div>
+				 <hr>
+				 <div class="form-group">
+			 		<div style="margin-top:10px;margin-bottom:10px;margin-left:10px">
+			 			<div class=" form-inline rowModal">
+			 				<label class="labelMy">Дата рождения:</label>
+			 				<input lang="ru" asp-for="YearBirthday" type="text" id="dateBirthday" class="form-control form-control-sm ui-datepicker-calendar" placeholder="дд.мм.гггг" />
+			 				<button type="button" id="buttonForDateBirth" style="border-style: solid; border-width: thin; border-radius: 0 4px 4px 0; background-color: white; "><img style="width:20px" src="~/svgs/solid/calendar-alt.svg" /> </button>
+			 			</div>
+			 		</div>
+				 </div>
+				 <hr>
+				 <div style="margin-top: 10px;margin-left:10px">
+			 		<label for="onlySetId">Наличие анкеты: </label>
+			 		<span class="tristate tristate-switcher">
+			 			<input type="radio" id="item2-state-off" name="CheckAct" value="-1">
+			 			<input type="radio" id="item2-state-null" name="CheckAct" value="0">
+			 			<input type="radio" id="item2-state-on" name="CheckAct" value="1">
+			 			<i></i>
+			 			<label for="item2-state-null">Отсутствует</label>
+			 			<label for="item2-state-on">Не задано</label>
+			 			<label for="item2-state-off">Присутствует</label>
+			 		</span>
+				 </div>
+				 <div style="margin-top: 10px; margin-left: 30px">
+			 		<label for="onlySetId">Наличие фото: </label>
+			 		<span class="tristate tristate-switcher">
+			 			<input type="radio" id="item1-state-off" name="CheckPhoto" value="-1">
+			 			<input type="radio" id="item1-state-null" name="CheckPhoto" value="0">
+			 			<input type="radio" id="item1-state-on" name="CheckPhoto" value="1">
+			 			<i></i>
+			 			<label for="item1-state-null">Отсутствует</label>
+			 			<label for="item1-state-on">Не задано</label>
+			 			<label for="item1-state-off">Присутствует</label>
+			 		</span>
+				 </div>
+				 <hr>
+				 <div style="margin-left: 10px; margin-bottom: 10px">
+			 		<input onclick="CboxSch()" name="Sch_search" id="Sch_searchId" type="checkbox" style=" transform: scale(1.5); opacity: 0.9; cursor: pointer;" />
+			 		<label for="Sch_searchId" style="margin-bottom: 0px">&nbsp;Искать в УО</label>
+					<i id="hide_select" hidden="hidden">
+			 		<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-outline-green" asp-for="CheckSch" id="CheckSch">
+			 			<option value="-">-</option>
+			 			@foreach (var item in ViewBag.Model2)
+						{
+							<option id="@item.id" value="@item.id">@item.school_name_short</option>
+						}
+					</select>
+					</i>
+				 </div>
+				 <div class="modal-footer">
+			 		<button id="cancelForm" type="reset" style="border-radius:50px; background:#ffffff;color:black" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+			 		<button type="submit" id="searchBtn" style="border-radius:50px; background:#ffffff;color:black" class="btn btn-outline-success">Искать</button>
+				 </div>
+				}
+					</div>
+				</div>
+			</div>
+			<!-- Modal Edit Student -->
+			<div class="modal fade" id="editKid" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" style="max-width:fit-content" role="document">
+				<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Редактирование учащихся</h5>
+							<button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						@await Html.PartialAsync("_EditKid")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	@*<div class="tab-pane container fade" id="AddKid">
+		<div id="partialAddKid">
+
+		</div>
+		</div>*@
+	@*<div class="tab-pane container fade" id="EditKid">
+		<div id="partialEditKid">
+
+		</div>
+		</div>*@
+	<div class="tab-pane col-12 container fade" id="SCSchool">
+		<div id="partialSCSchool"></div>
+	</div>
+	<div class="tab-pane col-12 container fade" id="Transfer">
+		<div id="partialTransfer"></div>
+	</div>
+	<div class="tab-pane col-12 container fade" id="Report">
+		<div id="partialReport"></div>
+	</div>
+</div>
+
+
+
+
+
+
+	<script type="text/javascript">
+	var authorized = '@Context.Session.GetString("Authorized")';
+        if(authorized != "1" ){
+              window.location.href = 'Home';
+              window.location.reload();
+        }
+	$(document).ready(function () {
+	
+		$('.table tr').hover(function () {
+		$(this).addClass('hover');
+		}, function () {
+		$(this).removeClass('hover');
+		});
+		$('.table tr').click(function () {
+		$('.table tr').removeClass('active');
+		$(this).addClass('active');
+		});
+
+		var selected_item = sessionStorage.getItem("SelectedSchool");
+		if (selected_item != null) {
+			$('#school_cbu').selectpicker('val', selected_item);
+		}
+		$('.selectpicker').selectpicker('refresh');
+		$('.select-zayavka').selectpicker();
+		$('.select-stud-sts').selectpicker();
+        $('.select-school-edit').selectpicker();
+		$("#school_cbu").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+			@*console.log(this.value, clickedIndex, newValue, oldValue);*@
+			selectSchool(this.value);
+		});
+
+		var tongle = sessionStorage.getItem('CheckAct');
+		if(tongle == null || tongle == 0){
+			$('#item2-state-null').prop('checked', true);
+		}
+		if(tongle == 1){
+			$('#item2-state-on').prop('checked', true);
+		}
+		if(tongle == -1){
+			$('#item2-state-off').prop('checked', true);
+		}
+		
+		var tongle2 = sessionStorage.getItem('CheckPhoto');
+		if(tongle2 == null || tongle2 == 0){
+			$('#item1-state-null').prop('checked', true);
+		}
+		if(tongle2 == 1){
+			$('#item1-state-on').prop('checked', true);
+		}
+		if(tongle2 == -1){
+			$('#item1-state-off').prop('checked', true);
+		}
+	
+		var sch_sch = sessionStorage.getItem('Sch_Sch');
+		if(sch_sch != null && sch_sch != "-" ){
+			$("#Sch_searchId").prop('checked',true);
+			$('#hide_select').removeAttr("hidden");
+		}else{
+			@*console.log("fail");*@
+			$("#Sch_searchId").prop('checked',false);
+				$('#hide_select').attr("hidden", "hidden");
+				$('#CheckSch').selectpicker('val', "-");
+		}
+
+
+	});
+
+	$(window).load(function () {
+			  var url = document.location.toString();
+			  $("#docsPage").addClass('grayMenu');
+			  if (url.match('#')) {
+		
+			  /* console.log($('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show'));*/
+			  if (url.split('#')[1] == "AddKid") {
+	
+			  $("#partialAddKid").load('@Url.Content("/Home/AddKid")', function () {
+
+			  });
+			  }
+			  if (url.split('#')[1] == "EditKid") {
+
+			  $("#partialEditKid").load('@Url.Content("/Home/EditKid")', function () {
+	
+			  });
+			  }
+			  if (url.split('#')[1] == "SCSchool") {
+			
+			  document.getElementById('loadSCSchool').click();
+			  $("#partialSCSchool").load('@Url.Content("/Home/SCSchool")', function () {
+		
+			  });
+			  }
+			  if (url.split('#')[1] == "Transfer") {
+			  $("#partialTransfer").load('@Url.Content("/Home/Transfer")', function () {});
+			  }
+			  if (url.split('#')[1] == "Report") {
+			  $("#partialReport").load('@Url.Content("/Home/Report")', function () {});
+			  }
+			  }
+			  // Change hash for page-reload
+			  $('.nav-tabs a').on('shown.bs.tab', function (e) {
+			  /* window.location.hash = e.target.hash;*/
+			  })
+	});
+
+	$("#loadAddKid").click(function () {
+	$("#partialAddKid").load('@Url.Content("/Home/AddKid")', function () {
+	});
+	});
+
+	$("#loadEditKid").click(function () {
+	$("#partialEditKid").load('@Url.Content("/Home/EditKid")', function () {
+	});
+	});
+
+	$("#loadSCSchool").click(function () {
+	$("#partialSCSchool").load('@Url.Content("/Home/SCSchool")', function () {
+	});
+	});
+
+	@*$("#loadTransfer").click(function () {
+	$("#partialTransfer").load('@Url.Content("/Home/Transfer")', function () {
+	});
+	});*@
+
+	$("#loadReport").click(function () {
+	$("#partialReport").load('@Url.Content("/Home/Report")', function () {
+	});
+	});
+
+	$("#cancel").click(function () {
+		 var uploadInput = document.getElementsByName("Photo");
+		 var preview = document.getElementById("blah");
+		 //var name = document.getElementsByName("Name");
+		 //name.textContent = '';
+		 $('.table tr').removeClass('active');
+		 $('.table tr').removeClass('hover');
+		 @*preview.src = '';*@
+		 uploadInput.values = '';
+		 @*document.getElementById("submitAddForm").disabled = true;*@
+		 $("#lableForUpload").text('Загрузить фото');
+	});
+
+	$("#cancelForm").click(function () {
+	var uploadInput = document.getElementsByName("Photo");
+	var preview = document.getElementById("blah");
+	//var name = document.getElementsByName("Name");
+	//name.textContent = '';
+	$('.table tr').removeClass('active');
+	$('.table tr').removeClass('hover');
+	@*preview.src = '';*@
+	uploadInput.values = '';
+	document.getElementById("submitAddForm").disabled = true;
+	$("#lableForUpload").text('Загрузить фото');
+
+	});
+
+	function CboxSch() {
+	var Sch_searchChBox = document.getElementById("Sch_searchId");
+	if (Sch_searchChBox.checked == true) {
+	/*var setDep = document.getElementById("dep");*/
+		$('#hide_select').removeAttr("hidden");
+	}
+	if (Sch_searchChBox.checked == false) {
+	/*var setDep = document.getElementById("dep");*/
+		$('#hide_select').attr("hidden", "hidden");
+		$('#CheckSch').selectpicker('val', "-");
+		sessionStorage.setItem('Sch_Sch',"-");
+	}}
+
+	function getdetails(obj) {
+	var name = document.getElementById("name");
+	name.value = obj.id;
+	}
+
+	function check() {
+	$('input[name="chbox[]"]').prop("checked", function (i, prop) {
+	return !prop;
+	});
+	}
+	
+	
+	function CboxEdit() {
+		var Stud_persData = document.getElementById("Stud_persData");
+		var Stud_template = document.getElementById("Stud_template");
+		if(Stud_persData.checked == true){
+		$('#Stud_persData').val(1);
+		}else{$('#Stud_persData').val(0);}
+
+		if(Stud_template.checked == true){
+		$('#Stud_template').val(1);
+		}else{$('#Stud_template').val(0);}
+	}
+
+	$("#editKidBtn").click(function () {
+		var Stud_persData = document.getElementById("Stud_persData");
+		var Stud_template = document.getElementById("Stud_template");
+		if(Stud_persData.checked == true){
+		$('#Stud_persData').val(1);
+		}else{$('#Stud_persData').val(0);}
+		
+		if(Stud_template.checked == true){
+		$('#Stud_template').val(1);
+		}else{$('#Stud_template').val(0);}
+
+		$("#EditKidForm").submit();
+	});
+
+
+
+	$('#dateBirthday').datepicker(
+	{
+		format: 'dd.mm.yyyy',
+		/* orientation: "top right",*/
+		language: 'ru',
+		startDate: new Date(2000, 1 - 1, 1),
+		endDate: 'y',
+		startView: 2,
+		defaultViewDate: {
+		year: 2014
+		},
+		autoclose: true
+		}
+	);
+		$('#buttonForDateBirth').click(function () {
+		$("#dateBirthday").focus();
+	})
+
+
+
+
+	$('#searchBtn').click(function () {
+		var checkTongle = document.getElementsByName("CheckAct");
+		var checkTongle2 = document.getElementsByName("CheckPhoto");
+		
+		if(checkTongle.valueOf().item(2).checked == true)
+		{
+			sessionStorage.setItem('CheckAct', checkTongle.valueOf().item(2).value);
+		}
+		if(checkTongle.valueOf().item(1).checked == true)
+		{
+			sessionStorage.setItem('CheckAct', checkTongle.valueOf().item(1).value);
+		}
+		if(checkTongle.valueOf().item(0).checked == true)
+		{
+			sessionStorage.setItem('CheckAct', checkTongle.valueOf().item(0).value);
+		}
+
+		if(checkTongle2.valueOf().item(2).checked == true)
+		{
+			sessionStorage.setItem('CheckPhoto', checkTongle2.valueOf().item(2).value);
+		}
+		if(checkTongle2.valueOf().item(1).checked == true)
+		{
+			sessionStorage.setItem('CheckPhoto', checkTongle2.valueOf().item(1).value);
+		}
+		if(checkTongle2.valueOf().item(0).checked == true)
+		{
+			sessionStorage.setItem('CheckPhoto', checkTongle2.valueOf().item(0).value);
+		}
+		var Sch_searchChBox = document.getElementById("Sch_searchId");
+		if (Sch_searchChBox.checked == true){
+			sessionStorage.setItem('Sch_Sch', document.getElementById("CheckSch").value);
+		}
+	})
+
+	$('#clearSch').click(function() {
+	sessionStorage.removeItem('CheckAct');
+	sessionStorage.removeItem('CheckPhoto');
+	sessionStorage.removeItem('Sch_Sch');
+	})
+	
+	
+	//$(function () { //Для отображения увеличенного изображения
+	// $('.minimized').click(function (event) {
+	// var i_path = $(this).attr('src');
+	// $('body').append('<div id="overlay"></div><div id="magnify"><img src="' + i_path + '"><div id="close-popup"><i></i></div></div>');
+	// $('#magnify').css({
+	// left: ($(document).width() - $('#magnify').outerWidth()) / 2,
+	// // top: ($(document).height() - $('#magnify').outerHeight())/2 upd: 24.10.2016
+	// top: ($(window).height() - $('#magnify').outerHeight()) / 2
+	// });
+	// $('#overlay, #magnify').fadeIn('fast');
+	// });
+
+	// $('body').on('click', '#close-popup, #overlay', function (event) {
+	// event.preventDefault();
+	// $('#overlay, #magnify').fadeOut('fast', function () {
+	// $('#close-popup, #magnify, #overlay').remove();
+	// });
+	// });
+	//});
+
+
+	</script>

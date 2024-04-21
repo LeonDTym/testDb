@@ -1,0 +1,54 @@
+﻿			<div class="modal fade" id="chooseDataReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" style="max-width:fit-content" role="document">
+			@using (Html.BeginForm("SaveReportDate", "Home", FormMethod.Post, new { id = "ReportChangesForm", enctype="multipart/form-data" }))
+				{
+				<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Промежуточный отчет</h5>
+							<button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div style="margin-left:10px">
+						Выберите период времени:
+						</div>
+						<div class=" form-inline  rowModal" style="margin:10px">
+						  <div id="example-daterange">
+							  <div class="input-daterange input-group" id="datepicker">
+								<span class="input-group-text">с</span>
+							  <input type="text" onchange="checkData()" class="input-sm form-control" name="start">
+							  &nbsp;
+							  <span class="input-group-text">по</span>
+							  <input type="text" onchange="checkData()" class="input-sm form-control" name="end">
+							  </div>
+						  </div>
+			 			</div>
+					 <div class="modal-footer">
+			 		<button id="cancelForm" type="reset" style="border-radius:50px; background:#ffffff;color:black" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+			 		<button type="submit" id="reportBtn" style="border-radius:50px; background:#ffffff;color:black" class="btn btn-outline-success">Сформировать</button>
+				 </div>
+					</div>
+				}
+				</div>
+			</div>
+<script type="text/javascript">
+
+	$('#example-daterange .input-daterange').datepicker({
+		format: 'dd.mm.yyyy',
+		language: 'ru',
+		startDate: new Date(2000, 1 - 1, 1),
+		endDate: 'y',
+		startView: 0,
+		clearBtn: true,
+		todayHighlight: true
+	});
+	function checkData(){
+		@* console.log($('input[name="start"]')[0].value);
+		 console.log($('input[name="end"]')[0].value);*@
+		 var start = $('input[name="start"]')[0].value;
+		 var end = $('input[name="end"]')[0].value;
+		 if(start > end){
+			 $('#reportBtn').attr('disabled', true);
+		 }else{$('#reportBtn').attr('disabled', false);}
+	}
+</script>

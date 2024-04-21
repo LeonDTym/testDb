@@ -1,0 +1,152 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="text-center">
+	<h1 style="text-align:center"><b>Отчеты</b></h1>
+</div>
+<div style="display: flex; justify-content: right;">
+	<button title="Выбрать отчет"  class="btn btn-outline-green  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Формирование отчетов <i style="font-size:16pt" class="fas fa-file-alt"></i></button>
+	&nbsp;<a style="font-size:12pt; text-align:center" class="btn btn-sm btn-outline-dark" type="button" asp-area="" asp-controller="Home" asp-action="Index">Вернуться на главную </a>
+	<div class="dropdown-menu dropdown-menu-right">
+    <button class="dropdown-item" type="submit" onclick="functionReport()">Выгрузить отчет <i style="font-size:16pt; color:#2E8B57" class="fas fa-file-excel"></i></button>
+	 <div class="dropdown-divider"></div>
+    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#chooseDataReport">Выгрузить промежуточный отчет <i style="font-size:16pt; color:#2E8B57" class="fas fa-clock"></i></button>
+  </div>
+</div>
+<table id="ReportTable" class="table ">
+  <thead class="thead-dark">
+	<th>№</th>
+	<th>УНП</th>
+	<th>Наименование УО</th>
+	<th class="sorting_desc_disabled sorting_asc_disabled" aria-sort="other">Содержание</th>
+  </thead>
+  <tbody>
+	  @foreach (var item in ViewBag.Model)
+		{
+    <tr class="table-active">
+     <td>@item.id</td> @*Номер школы*@
+	  <td>@item.unn</td>
+	  <td>@item.school_name_short</td> @*Название школы*@
+	  <td>Колличество учеников: @item.count_students</td> 
+	  </tr>
+	  <tr>
+		<td style="opacity:0">@item.id</td>
+		<td style="opacity:0">@item.unn</td>
+		<td style="opacity:0">@item.school_name_short</td>
+		<td style="width:80%" colspan="10">
+		<div id="acc_@item.id">
+		  <div class="card">
+				<div class="card-header" id="heading">
+				<h5 class="mb-0">
+				<button id="btnSetID_@item.id" class="btn btn-link collapsed" data-toggle="collapse" onclick="setIdMiniTable(@item.id.ToString())" data-target="#collapse_@item.id" aria-expanded="true" >
+				Разворачиваемая панель #@item.id
+				</button>
+				</h5>
+		  </div>
+		<div id="collapse_@item.id" class="collapse" aria-labelledby="heading" data-parent="#acc_@item.id">
+			<div class="card-body">
+	<table id="ReportTableMini_@item.id" class="table mb-0 table-bordered table-sm table">
+		<caption>Колличество учеников: @item.count_students</caption>
+		<thead>
+			<th>ID-учащегося</th>
+			<th>ФИО</th>
+			<th>Дата рождения</th>
+			<th>Дата окончания</th>
+			<th>Класс</th>
+			<th style="width:1%">Подтверждение<br>данных анкеты</th>
+			<th>Фото</th>
+		</thead>
+		<tbody>
+			@foreach (var item2 in @item.students) { 
+			<tr>
+			<td>@item2.unique_id</td>
+			<td>@item2.kid_surname @item2.kid_name @item2.kid_patronymic</td>
+			<td>@item2.year_birthday.ToString("dd.MM.yyyy")</td>
+			<td>@item2.end_training.ToString("MM.yyyy")</td>
+			<td>@item2.kid_class</td>
+			<td style="text-align:center; width:1%">@if (item2.pers_data != 0)
+				{<i style="color:forestgreen" class="fa fa-check"></i>}
+				else
+				{<i style="color:red" class="fa fa-times"></i>}</td>
+			<td>@if (item2.photo_id != 0) {
+				<label style="margin-bottom:0px; margin-left:10%" class="" ><i style="color:forestgreen" class="fa fa-check"></i> Фото загруженно</label>
+					}else{<label style="margin-bottom:0px; margin-left:10%" class="" ><i style="color:red" class="fa fa-times"></i> Фото отсутствует</label>}</td>
+			</tr>
+			}
+		</tbody>
+		</table>
+		</div>
+		</div>
+   </td>
+    </tr>
+	 }
+  </tbody>
+</table>
+		@await Html.PartialAsync("_dataReportModal")
+<script type="text/javascript">
+@*var height = window.innerHeight - (document.documentElement.scrollHeight - window.innerHeight);
+console.log(height);*@
+@*document.getElementById('collapse').classList.remove('show')*@
+    	$(document).ready(function () {
+		$('#ReportTable').DataTable({
+			pageLength: -1,
+			lengthMenu: [[5, 10, 25, 100, -1], [5, 10, 25, 100, "Все"]],
+		  	scrollY: 550,
+			"columnDefs": [ {
+				"targets": [ 3 ],
+				"orderable": false
+								} ],
+			pagingType: 'full_numbers',
+			@*paging: false,*@
+			"language": {
+				"lengthMenu": "Отобразить _MENU_ на странице",
+				"zeroRecords": "Ничего не найдено",
+				"info": "Показано _PAGE_ из _PAGES_ страниц",
+				"infoEmpty": "Записей нет",
+				"infoFiltered": "(отфильтровано из _MAX_ записей)",
+				"search": "Поиск УО",
+				"paginate": {
+					"first": "&laquo;",
+					"previous": "&lt;",
+					"next": "&gt;",
+					"last": "&raquo;"
+				}
+			}
+
+		});
+		
+		
+	});
+	function setIdMiniTable(text) {
+		  var name = document.getElementById("btnSetID_"+text);
+		  name.removeAttribute('onClick');
+		  $('#ReportTableMini_'+ text).DataTable({
+		  pageLength: 5,
+		  lengthMenu: [[5, 10, 25, 100, -1], [5, 10, 25, 100, "Все"]],
+		  pagingType: 'full_numbers',
+		  "language": {
+				"lengthMenu": "Отобразить _MENU_ на странице",
+				"zeroRecords": "Ничего не найдено",
+				"info": "Показано _PAGE_ из _PAGES_ страниц",
+				"infoEmpty": "Записей нет",
+				"infoFiltered": "(отфильтровано из _MAX_ записей)",
+				"search": "Поиск учащихся",
+				"paginate": {
+					"first": "&laquo;",
+					"previous": "&lt;",
+					"next": "&gt;",
+					"last": "&raquo;"
+				}
+			}
+		});
+	}
+	    function functionReport() {
+@*        var elem = document.getElementById("infoData");
+        var info = elem.textContent;*@
+        var url = '/Home/SaveReportAll';
+        var newWindow = window.open(url, '_blank', 'noopener');
+        newWindow.opener = null;
+
+    }
+</script>

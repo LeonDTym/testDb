@@ -1,0 +1,58 @@
+﻿@{ Layout = null; }
+<head>
+    @foreach (var item in ViewBag.Model)
+    {
+<title>Анкета Карты учащегося @item.unique_id</title>
+}
+</head>
+<link rel="stylesheet" type="text/css" href="~/css/forprinting.css" asp-append-version="true">
+<div>
+    <p style="font-size: 20px; text-align: center;">Анкета на подготовку данных для оформления Карты учащегося</p>
+    <table>
+        <tr class="AktLabel">
+            <td>
+                @foreach (var item in ViewBag.Photo)
+                {
+    <img style="width: 224px; height: 298px; border:double" src="data:image/jpeg;base64,@Convert.ToBase64String(item.photo) " />}
+            </td>
+            <td>
+                @foreach (var item2 in ViewBag.Model)
+                {
+    <div style="font-size: 20px; margin-left:60px">ФИО: @item2.kid_surname @item2.kid_name @item2.kid_patronymic</div>
+                    <div style="font-size: 20px; margin-left:60px">Дата рождения: @item2.year_birthday.ToShortDateString()</div>
+                                    @foreach (var itemSch in ViewBag.School)
+                                    {
+                    <div style="font-size: 20px; margin-left:60px">Наименование учреждения образования: @itemSch.school_name_card</div>}
+                    <div style="font-size: 20px; margin-left:60px">Класс: @item2.kid_class</div>
+                    <div style="font-size: 20px; margin-left:60px">Срок окончания обучения: @item2.end_training.ToString("MM.yyyy")</div>}
+           
+            
+            @*<img style="width: 290px; height: 120px; margin-left:60px; margin-top:20px " src="data:image/jpeg;base64,@ViewBag.Code " />*@
+            </td>
+            <td>
+                <div class="noprint">
+                    <div class="row">
+                        <div class="col-10" style="padding:5px 20px;">
+                            <button class="btn btn-outline-info" style="width: 50px; position: absolute;" onclick="myFunctionPrint()">
+                                <img style="height: 100%;" src="~/svgs/solid/print.svg" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <hr style="width:100%">
+    <div style="font-size: 20px; margin-top: 20px; word-break: break-all;">ФИО родителя(законного представителя):  ___________________________________________________________________________________________________________________</div>
+    <div style="font-size: 20px; margin-top: 20px;">Контактный телефон: +375 (__) _________</div>
+    <div style="font-size: 20px; margin-top: 20px;">Согласие на получение от банка информации о номере ID-учащегося: Да / Нет </div>
+    <div style="font-size: 20px; margin-top: 20px;">Подтверждаю достоверность данных, содержащихся в Анкете ________________<div style="font-size: 10px; margin-left:550px">(Подпись)</div></div>
+    
+</div>
+
+<script>
+    function myFunctionPrint() {
+        window.print();
+    }
+</script>
+

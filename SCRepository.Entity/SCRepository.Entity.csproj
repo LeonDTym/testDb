@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\b00044784\.nuget\packages\mysql.data.entityframework\8.0.31\contentFiles\any\netstandard2.1\app.config.transform" />
+    <Content Remove="C:\Users\b00044784\.nuget\packages\mysql.data.entityframework\8.0.31\contentFiles\any\netstandard2.1\web.config.transform" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.31" />
+    <PackageReference Include="MySql.Data.Entity" Version="6.10.9" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.17" />
+  </ItemGroup>
+
+</Project>

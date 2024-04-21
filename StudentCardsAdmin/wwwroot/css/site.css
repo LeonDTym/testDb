@@ -1,0 +1,408 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.modal-title {
+    color: #2E8B57;
+    font-weight: bold;
+}
+
+.btn-outline-green {
+    color: #2E8B57;
+    border-color: #2E8B57;
+    font-weight:bold;
+}
+
+    .btn-outline-green:hover {
+        color: #fff;
+        background-color: #2E8B57;
+        border-color: #2E8B57;
+    }
+
+    .btn-outline-green:focus, .btn-outline-green.focus {
+        box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+    }
+
+    .btn-outline-green.disabled, .btn-outline-green:disabled {
+        color: #2E8B57;
+        background-color: transparent;
+    }
+
+    .btn-outline-green:not(:disabled):not(.disabled):active, .btn-outline-green:not(:disabled):not(.disabled).active,
+    .show > .btn-outline-green.dropdown-toggle {
+        color: #fff;
+        background-color: #2E8B57;
+        border-color: #2E8B57;
+    }
+
+        .btn-outline-green:not(:disabled):not(.disabled):active:focus, .btn-outline-green:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-green.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+        }
+
+success.dropdown-toggle {
+    color: #fff;
+    background-color: #2E8B57;
+    border-color: #2E8B57;
+}
+
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.calendar {
+    background-image:url(/svgs/solid/calendar-alt.svg)
+}
+/*Styles for datepicker*/
+
+.styling {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    /* height: 150px;
+  overflow: auto; */
+}
+/*
+    some animation
+*/
+.label2 {
+    width: 180px;
+    height: 50px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    font: 14px/50px Tahoma;
+    transition: all 0.18s ease-in-out;
+    border: 1px solid #333;
+    color: #333;
+}
+
+    .label2:hover {
+        color: white;
+        background: #333;
+    }
+
+.select-kid-photo {
+  /*  width: 0.1px;
+    height: 0.1px;
+    opacity: 0;*/
+    /*overflow: hidden;*/
+  /*  position: absolute;
+    z-index: -1;*/
+}
+
+
+/*Photo scale*/
+.minimized {
+    width: 300px;
+    cursor: pointer;
+    border: 1px solid #FFF;
+}
+
+    .minimized:hover {
+        border: 1px solid yellow;
+    }
+/* увеличенная картинка */
+#magnify {
+    display: none;
+    /* position: absolute; upd: 24.10.2016 */
+    position: fixed;
+    max-width: 600px;
+    height: auto;
+    z-index: 9999;
+}
+
+    #magnify img {
+        width: 100%;
+    }
+/* затемняющий фон */
+#overlay {
+    display: none;
+    background: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    z-index: 9990;
+}
+/* кнопка закрытия */
+#close-popup {
+    width: 30px;
+    height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #AFAFAF;
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+    #close-popup i {
+        width: 30px;
+        height: 30px;
+        background: url(https://codernote.ru/files/cross.png) no-repeat center center;
+        background-size: 16px 16px;
+        display: block;
+    }
+
+@keyframes rota {
+    25% {
+        transform: rotate(360deg);
+    }
+}
+
+/*#close-popup:hover {
+    animation: rota 4s infinite normal;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}*/
+
+
+
+.AktLabel {
+    font-size: 20px;
+    /* margin:110px;*/
+}
+
+
+
+/*Table school*/
+/*.tableFixHeadSchool {
+    overflow: scroll;
+    height: 40em;
+    width: 85%;
+}
+
+    .tableFixHeadSchool thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        box-shadow: inset 1px 1px #000, 0 1px #000;
+    }
+.tableSch th {
+    padding: 5px;
+    text-align: center;
+    background: #fff;
+}
+
+.tableSch td {
+    word-wrap: break-word;
+    padding: 5px;
+}
+.tableSch {  
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}*/
+
+    /*Table school*/
+
+.text-transfer {
+    padding: 0px;
+    height: 100%;
+    margin-left: 30px;
+}
+.in-transfer {
+    display: flex;
+    margin-bottom: 10px;
+    margin-left:20px;
+    margin-right:30px;
+}
+
+.tableFixHead {
+    overflow: scroll;
+    height: 35em;
+}
+.tableFixHead thead th {
+    position: sticky;
+    vertical-align:text-top;
+    top: 0;
+    z-index: 1;
+    box-shadow: inset 1px 1px #000, 0 1px #000;
+}
+/*.table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 50%;
+}*/
+
+.table th {
+    padding:5px;
+    text-align: center;
+    background: #fff;
+}
+.table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+    /*.table th,*/
+    .table td {
+        /* border: 1px solid #888;*/
+        padding: 5px;
+        text-align: left;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+    }
+
+
+
+
+
+/* Hover */
+.table .hover td:after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 105%;
+    border-top: 3px solid #ffe5c5;
+    border-bottom: 3px solid #ffe5c5;
+}
+
+.table .hover td:first-child:after {
+ /*   width:fit-content;*/
+    border-left: 3px solid #ffe5c5;
+}
+
+.table .hover td:last-child:after {
+    border-right: 3px solid #ffe5c5;
+    width: fit-content;
+}
+
+/* Click */
+.table .active td:after {
+    content:'';
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 105%;
+    border-top: 3px solid orange;
+    border-bottom: 3px solid orange;
+}
+
+.table .active td:first-child:after {
+    border-left: 3px solid orange;
+}
+
+.table .active td:last-child:after {
+    border-right: 3px solid orange;
+    width: fit-content;
+}
+
+
+/*Help*/
+[data-tooltip] {
+    position: relative;/*  Относительное позиционирование */
+}
+
+    [data-tooltip]::after {
+        content: attr(data-tooltip); /*Выводим текст */
+        position: absolute; /*Абсолютное позиционирование */
+        width: 240px; /* Ширина подсказки*/
+        right: 10px;
+        top: 0; /*Положение подсказки */
+        background: #3989c9; /* Синий цвет фона */
+        color: #fff; /*Цвет текста */
+        padding: 0.5em; /*Поля вокруг текста */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /*Параметры тени */
+        pointer-events: none; /*Подсказка */
+        opacity: 0; /*Подсказка невидима */
+        transition: 1s; /*Время появления подсказки */
+    }
+  
+    [data-tooltip]:hover::after {
+        opacity: 10; /*Показываем подсказку */
+        top: 2.5em; /*Положение подсказки*/ 
+        z-index: 999999;
+    }
+
+
+
+
+
+.k-i-user::before {
+    content: "\e801";
+}
+.accaunt {
+    background-color: #04AA6D;
+    border: 1px solid black;
+    border-radius: 50%;
+}

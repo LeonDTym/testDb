@@ -1,0 +1,207 @@
+﻿/*.descriptions {
+    text-align: center;
+    width: 100px;
+    border-right: 1px solid #cccdcb;
+}*/
+.tab-content {
+    border-right: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+a,
+a:hover{
+    color: black;
+}
+
+#loading {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: none;
+    z-index: 99999;
+    background: rgba(0,0,0,0.05);
+}
+
+    #loading > div {
+        color: #959595;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        margin-left: -35px;
+        margin-top: -35px;
+    }
+
+#areaForTree,
+#areaForTreeEditFilter,
+#areaForTreeEdit,
+#areaForTreeDeleteFilter,
+#areaForTreeDelete,
+#areaForTreeFilterAdd,
+#areaForTreeAddEdition,
+#areaForTreeFilterEdit,
+#areaForTreeEditEdition,
+#areaForTreeFilterDelete,
+#areaForTreeDeleteEdition {
+    height: 95px;
+    border: 1px solid #ced4da;
+    border-radius: .2rem;
+    overflow-y: auto;
+}
+
+#areaForTreeClassifier,
+#areaForTreeClassifierEdit,
+#areaForTreeClassifierDelete {
+    border: 1px solid #ced4da;
+    border-radius: .2rem;
+    height: 460px;
+    overflow-y: auto;
+}
+
+#treeView #treeViewItems .k-in:hover,
+#treeView #treeViewItems .k-state-selected {
+    background-color: #aeaeae !important;
+    color: #495057 !important;
+    border-bottom: none !important;
+    cursor: pointer;
+}
+
+#treeView #treeViewItems .k-state-focused {
+    box-shadow: none !important;
+    background-color: #aeaeae !important;
+    border-color: #aeaeae !important;
+}
+
+
+.k-treeview .k-in {
+    padding: 0 !important;
+    color: #495057 !important;
+    white-space: normal !important;
+    font-size: .875rem;
+}
+
+.littleLabel {
+    font-size: .875rem;
+}
+
+.k-upload-button {
+    margin: 0 !important;
+    height: 30px;
+    font-size: .875rem !important;
+}
+
+#AddDocForm .form-group{
+    margin-bottom: .5rem !important;
+}
+
+#menu .k-item > .k-link {
+    padding: .4em .8em !important;
+}
+
+.field-validation-error,
+.validation-summary-errors {
+    color: red;
+}
+
+    .validation-summary-errors ul li {
+        list-style-type: none; /* Убираем маркеры */
+    }
+
+.tableDocType,
+.tableDepartsment,
+.tableApproved {
+    max-height: 565px;
+    overflow-y: scroll;
+}
+
+    .tableDocType td,
+    .tableDepartsment td,
+    .tableApproved td {
+        font-size: .875rem;
+    }
+/*.nav-tabs > .nav-item > .active{
+    font-weight: bold;
+}*/
+
+.changeColor {
+    background-color: #C7D0CC; /*цвет Гридеперлевый кек)))*/
+}
+
+#tableApprovedAdd,
+#tableApprovedEdit,
+#tableApprovedDelete,
+#tableDepartsmentAdd,
+#tableDepartsmentEdit,
+#tableDepartsmentDelete,
+#tableDocTypeAdd,
+#tableDocTypeEdit,
+#tableDocTypeDelete {
+    margin-bottom: 0 !important;
+}
+
+.newsTextarea {
+    overflow-y: auto;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 600px;
+    overflow-y: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.newsFontSize{
+    font-size: 11pt;
+    padding:0 !important;
+    text-align: center;
+}
+
+.k-editor-toolbar{
+    font-size: 10.4pt;
+}
+
+#areaDropdownDocuments,
+#areaDropdownDocumentsEditFilter,
+#additionEditFilter,
+#areaDropdownDocumentsDeleteFilter,
+#areaDropdownDocumentsFilterAdd,
+#areaDropdownDocumentsFilterEdit,
+#areaDropdownDocumentsFilterDelete,
+#areaDropdownEditionFilterEdit,
+#areaDropdownEditionFilterDelete,
+#additionDeleteFilter {
+    font-size: .75rem;
+}
+
+.k-dropdown .k-dropdown-wrap {
+    height: 26px;
+}
+
+.k-dropdown-wrap .k-input {
+    line-height: 22px;
+    font-size: .75rem;
+}
+
+.k-dropdown-wrap .k-icon {
+    position: relative;
+    top: -4px;
+}
+
+#editNewsTable,
+#DeleteNewsTable {
+    cursor: pointer;
+}
+
+.grayMenu {
+    background-color: #B5B8B1 !important;
+}
+
+#ProtocolDate{
+    height: 29px !important;
+}

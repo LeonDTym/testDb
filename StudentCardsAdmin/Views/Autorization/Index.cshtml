@@ -1,0 +1,84 @@
+﻿@model SCRepository.Entity.Models.UserModels.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Авторизация</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/autorization.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Validation.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib//jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="wrapper d-md-flex" style="border-radius:20px;">
+                <div class="wrapper d-md-flex" style=" border-radius: 20px; ">
+                    <div style=" border-top-right-radius: 20px; border-bottom-right-radius: 20px;" class="text-wrap p-1 p-lg-2 d-flex align-items-center order-md-last">
+                        <div class="w-100">
+                            <h2 class="text-center">"Карта учащегося"</h2>
+                            <hr />
+                            <a href="~/docs/Руководство пользователя_КУ.docx" class="rightstr" target="_blank">Руководство пользователя</a>
+                        </div>
+                    </div>
+                    <div class="login-wrap p-1 p-lg-2" style="border-radius:20px;">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4 text-autorization text-center">Авторизация</h3>
+                            </div>
+                        </div>
+                        <form class="signin-form" id="LoginForm" name="LoginForm" action="@Url.Action("CheckUser","Autorization")" method="post"
+                              data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#Loginresult">
+                            <div @*style="padding-left: 35px !important;padding-right:35px !important"*@ class="form-group mb-3 login">
+                                <label class="label" for="UserName">Имя пользователя</label>
+                                <input id="UserName" name="UserName" type="text" onkeyup="this.value=this.value.replace(/\s+/gi,'')" placeholder="Имя пользователя" class="form-control" maxlength="15" data-val="true" data-val-required="Имя пользователя необходимо заполнить" />
+                                @Html.ValidationMessageFor(model => model.UserName)
+                            </div>
+							<div style=" position:relative" class="form-group mb-3 pass">
+								<label class="label" for="inUserName">Пароль</label>
+								<div class=" form-inline rowModal">
+									<input id="Password" name="Password" maxlength="15" type="password" placeholder="Пароль" class="form-control" data-val="true"  style="position:relative" data-val-required="Пароль необходимо заполнить" />
+									@*<button type="button" style="position: absolute"><img style="width:20px;" src="~/svgs/solid/calendar-alt.svg" /></button>*@
+									<button type="button" class="showPass" id="buttonForDateBirth" style=" right: 0px; left: 180px; border: 0; border-radius: 0 4px 4px 0; background-color: rgba(255, 255, 255, 0); border-block-color: rgba(255, 255, 255, 0); position: absolute "><img onclick="gr(this)" style="width:25px" src="~/svgs/regular/eye-slash.svg" /></button>
+								</div>
+								@Html.ValidationMessageFor(model => model.Password)
+							</div>
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-group" id="PasswordChange">
+                                <button class="form-control btn btn-primary submit px-3">Войти</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+ var url = document.location.toString();
+       url = url.replace('/Autorization/CheckUser','');
+@*        window.location.reload();*@
+history.pushState({}, null, url);
+sessionStorage.clear();
+    function gr(obj) {
+		/*alert(obj.src.slice(-13));*/
+        if (obj.src.slice(-13) == "eye-slash.svg") {
+            document.getElementById("Password").setAttribute('type', 'text');
+            obj.src = "svgs/regular/eye.svg";
+        } else {
+            obj.src = "svgs/regular/eye-slash.svg";
+			document.getElementById("Password").setAttribute('type', 'password')
+        }
+	}
+</script>

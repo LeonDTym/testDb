@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<head>
+     @* <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css"> *@ 
+
+@*     <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/sc-2.4.1/sp-2.3.1/datatables.min.css" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/sc-2.4.1/sp-2.3.1/datatables.min.js"></script> *@
+</head>
+
+    <style>
+    div.container {
+        width: 80%;
+    }
+        thead input {
+            width: 100%;
+        }
+    </style>
+
+<table id="logsTable" class="table display table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>actionDetails</th>
+            <th>actionDateTime</th>
+        </tr>
+    </thead>
+</table>
+@* https://www.datatables.net/extensions/fixedheader/examples/options/columnFiltering.html *@
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $('#logsTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#logsTable thead');
+
+
+            var table = $('#logsTable').DataTable({
+                "colReorder": true,
+                "orderMulti": true,
+                "processing": true,
+                // "serverSide": true,
+                "fixedHeader": true,
+                "ajax": {
+                    "url": "/Home/GetData",
+                    "type": "POST"//,
+                 
+                    // "data": function (d) {
+                    //     d.draw = d.draw || 1;
+                    //     d.start = d.start || 0;
+                    //     d.length = d.length || 10;
+                    //     d.searchValue = $('#dt-search-0').val();
+                    //     // d.searchValue = this.search;
+                    //     d.sortColumn = d.order[0].column;
+                    //     d.sortDirection = d.order[0].dir;
+                    //     console.log(d.order[0].column + "  " + d.order[0].dir);
+                    // }
+                },
+                "columns": [
+                    { data: 'id' },
+                    { data: 'actionDetails' },
+                    { data: 'actionDateTime' }
+                ],
+                initComplete: function () {
+                    var api = this.api();
+                    api.columns()
+                        .eq(0)
+                        .each(function (colIdx) { 
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                            .off('keyup change')
+                            .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; 
+                                    $(this).parents('th').find('select').val();
+                                    var cursorPosition = this.selectionStart;
+                                    api.column(colIdx).search(
+                                        this.value != ''
+                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                            : '',
+                                        this.value != '',
+                                        this.value == ''
+                                    ).draw();
+                                }).on('keyup', function (e) {
+                                    e.stopPropagation();
+                                    var cursorPosition = this.selectionStart;
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        })
+                }
+                 ,"searching": true,
+                
+                // "order": [[0, 'desc']]
+            });
+            console.log($('#logsTable'));
+        });
+     
+    </script>
+}
