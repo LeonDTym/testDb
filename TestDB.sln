@@ -5,9 +5,7 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCRepository.Entity", "SCRepository.Entity\SCRepository.Entity.csproj", "{C257179E-D482-46A4-99AA-B480294F2030}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentCardsAdmin", "StudentCardsAdmin\StudentCardsAdmin.csproj", "{CAE353C4-A4DA-4E34-8926-E195684BD9E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication0", "WebApplication0\WebApplication0.csproj", "{A4D6076D-2C29-4BE1-B19B-8CD4511AB093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication0", "WebApplication0\WebApplication0.csproj", "{A4D6076D-2C29-4BE1-B19B-8CD4511AB093}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C257179E-D482-46A4-99AA-B480294F2030} = {C257179E-D482-46A4-99AA-B480294F2030}
 	EndProjectSection
@@ -22,10 +20,6 @@ Global
 		{C257179E-D482-46A4-99AA-B480294F2030}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C257179E-D482-46A4-99AA-B480294F2030}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C257179E-D482-46A4-99AA-B480294F2030}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAE353C4-A4DA-4E34-8926-E195684BD9E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAE353C4-A4DA-4E34-8926-E195684BD9E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAE353C4-A4DA-4E34-8926-E195684BD9E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAE353C4-A4DA-4E34-8926-E195684BD9E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4D6076D-2C29-4BE1-B19B-8CD4511AB093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4D6076D-2C29-4BE1-B19B-8CD4511AB093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D6076D-2C29-4BE1-B19B-8CD4511AB093}.Release|Any CPU.ActiveCfg = Release|Any CPU
