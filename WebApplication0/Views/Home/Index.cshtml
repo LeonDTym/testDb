@@ -40,13 +40,18 @@
             var table = $('#logsTable').DataTable({
                 "colReorder": true,
                 "orderMulti": true,
+                "orderCellsTop": true,
+                searchBuilder: {
+                    
+                },
+                dom: 'Qfrtip',
+                 // dom: 'Pfrtip'
                 "processing": true,
                 // "serverSide": true,
                 "fixedHeader": true,
                 "ajax": {
                     "url": "/Home/GetData",
                     "type": "POST"//,
-                 
                     // "data": function (d) {
                     //     d.draw = d.draw || 1;
                     //     d.start = d.start || 0;
@@ -103,7 +108,14 @@
                         })
                 }
                  ,"searching": true,
-                
+                language: {
+                    searchBuilder: {
+                        title: "Конструктор пользовательского поиска",
+                        add: 'Добавить условие',
+                        // condition: 'Состояние',
+                        
+                    }
+                },
                 // "order": [[0, 'desc']]
             });
             console.log($('#logsTable'));
